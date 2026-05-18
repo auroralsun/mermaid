@@ -58,7 +58,7 @@ function InlineNodeEditor({ node, position, onClose, onSave }: {
 
 export default function DiagramPreview() {
   const { code, setCode, setSource, source, setIsSyncing } = useDiagramStore()
-  const { mermaidTheme } = useSettingsStore()
+  const { theme, mermaidTheme } = useSettingsStore()
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [error, setError] = useState<string | null>(null)
@@ -217,9 +217,11 @@ export default function DiagramPreview() {
     )
   }
 
+  const isDark = theme === 'dark'
+
   return (
-    <div className="relative h-full overflow-hidden rounded-b-[16px] bg-slate-950/20">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(91,140,255,0.08),transparent_28%)] pointer-events-none" />
+    <div className={`relative h-full overflow-hidden rounded-b-[16px] ${isDark ? 'bg-slate-950/20' : 'bg-slate-100'}`}>
+      {isDark && <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(91,140,255,0.08),transparent_28%)] pointer-events-none" />}
       <div className="relative h-full">
         <ReactFlow
           nodes={nodes}
@@ -229,13 +231,13 @@ export default function DiagramPreview() {
           onConnect={handleConnect}
           onNodeDoubleClick={handleNodeDoubleClick}
           fitView
-          colorMode="dark"
+          colorMode={isDark ? 'dark' : 'light'}
           deleteKeyCode={['Backspace', 'Delete']}
           proOptions={{ hideAttribution: true }}
         >
-          <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#374151" />
+          <Background variant={BackgroundVariant.Dots} gap={16} size={1} color={isDark ? '#374151' : '#94a3b8'} />
           <Controls position="bottom-right" />
-          <MiniMap nodeColor={minimapNodeColor} maskColor="rgba(0,0,0,0.7)" position="bottom-left" />
+          <MiniMap nodeColor={minimapNodeColor} maskColor={isDark ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)'} position="bottom-left" />
         </ReactFlow>
 
         {editingNode && (

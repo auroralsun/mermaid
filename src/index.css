@@ -215,7 +215,7 @@ select {
 
 .react-flow__controls {
   overflow: hidden;
-  background: rgba(18, 24, 43, 0.82);
+  background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   box-shadow: var(--shadow-panel);
@@ -242,7 +242,7 @@ select {
 }
 
 .react-flow__minimap {
-  background: rgba(18, 24, 43, 0.82);
+  background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   box-shadow: var(--shadow-panel);
